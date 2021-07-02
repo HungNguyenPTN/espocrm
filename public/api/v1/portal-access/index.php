@@ -27,11 +27,14 @@
  * these Appropriate Legal Notices must retain the display of the "EspoCRM" word.
  ************************************************************************/
 
-require_once('../../bootstrap.php');
+require_once('../../../../bootstrap.php');
 
 use Espo\Core\{
-    Application,
-    ApplicationRunners\Api,
+    Portal\Application,
+    Portal\ApplicationRunners\Api,
+    Portal\Utils\Url,
 };
 
-(new Application())->run(Api::class);
+$portalId = Url::detectPortalIdForApi();
+
+(new Application($portalId))->run(Api::class);

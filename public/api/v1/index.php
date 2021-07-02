@@ -27,38 +27,11 @@
  * these Appropriate Legal Notices must retain the display of the "EspoCRM" word.
  ************************************************************************/
 
-include "../bootstrap.php";
+require_once('../../../bootstrap.php');
 
 use Espo\Core\{
     Application,
-    Application\RunnerParams,
-    ApplicationRunners\EntryPoint,
-    ApplicationRunners\PortalClient,
-    Portal\Utils\Url,
+    ApplicationRunners\Api,
 };
 
-$app = new Application();
-
-if (!$app->isInstalled()) {
-    exit;
-}
-
-if (Url::detectIsInPortalDir()) {
-    $basePath = '../';
-
-    if (Url::detectIsInPortalWithId()) {
-        $basePath = '../../';
-    }
-
-    $app->setClientBasePath($basePath);
-}
-
-if (filter_has_var(INPUT_GET, 'entryPoint')) {
-    $app->run(EntryPoint::class);
-
-    exit;
-}
-
-$params = RunnerParams::create()->with('basePath', $basePath);
-
-$app->run(PortalClient::class, $params);
+(new Application())->run(Api::class);

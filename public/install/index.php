@@ -31,7 +31,7 @@ if (session_status() !== \PHP_SESSION_ACTIVE) {
     session_start();
 }
 
-require_once('../bootstrap.php');
+require_once('../../bootstrap.php');
 
 use Espo\Core\Utils\Util;
 use Espo\Core\Utils\Client\DevModeJsFileListProvider;
