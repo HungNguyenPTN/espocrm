@@ -12,7 +12,7 @@ RewriteRule ^(.*)$ - [E=BASE:%1]
 #RewriteCond %{ENV:BASE}/public [NC]
 #RewriteRule ^/?public %1 [R=301,L,NE]
 
-RewriteRule ^/?public/client/(.*) %{ENV:BASE}/client/$1
+RewriteRule ^/?client/(.*)$ %{ENV:BASE}client/$1
 
 
 RewriteRule ^((?!public/).*)$ %{ENV:BASE}/public/$1 [L,NC]
