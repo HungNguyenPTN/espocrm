@@ -37,5 +37,4 @@ DirectoryIndex index.php index.html
   RewriteRule ^((?!public/).*)$ %{ENV:BASE}/public/$1 [L,NC]
 
   RewriteRule .* - [E=HTTP_ESPO_CGI_AUTH:%{HTTP:Authorization}]
-
 </IfModule>
