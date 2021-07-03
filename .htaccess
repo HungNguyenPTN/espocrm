@@ -5,31 +5,22 @@
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
-RewriteCond %{REQUEST_URI}::$1 ^(.*?/)(.*)::\2$
-RewriteRule ^(.*)$ - [E=BASE:%1]
+  # Store the base path.
+  RewriteCond %{REQUEST_URI}::$1 ^(.*?/)(.*)::\2$
+  RewriteRule ^(.*)$ - [E=BASE:%1]
 
+  # Forbid `public` directory.
+  #RewriteRule ^public - [F,L]
 
-#RewriteCond %{ENV:BASE}/public [NC]
-#RewriteRule ^/?public %1 [R=301,L,NE]
+  # Skip for `client` directory.
+  RewriteRule ^client/ - [L]
 
-RewriteRule ^/?client/(.*)$ %{ENV:BASE}client/$1
+  # For dev environment. There's no `node_modules` directory on production.
+  RewriteRule ^node_modules/ - [L]
 
+  # Rewrite to `public` directory.
+  RewriteRule ^((?!public/).*)$ %{ENV:BASE}/public/$1 [L,NC]
 
-RewriteRule ^((?!public/).*)$ %{ENV:BASE}/public/$1 [L,NC]
-
-
-#RewriteCond %{REQUEST_FILENAME} -d
-#RewriteRule ^/?public/ - [F]
-
-
-
-#RewriteBase /espo/
-#RewriteCond %{THE_REQUEST} /public/([^\s?]*) [NC]
-#RewriteRule ^ %1 [L,NE,R=302]
-
-#RewriteRule ^((?!public/).*)$ public/$1 [L,NC]
-
-  # PROTECTED DIRECTORIES
   RewriteCond %{REQUEST_FILENAME} -d
   RewriteRule ^/?(public/api)/ - [F]
 
@@ -38,7 +29,6 @@ RewriteRule ^((?!public/).*)$ %{ENV:BASE}/public/$1 [L,NC]
   RewriteRule ^/?custom/ - [F]
   RewriteRule ^/?vendor/ - [F]
   RewriteRule ^/?client/?$ - [F]
-  #END PROTECTED DIRECTORIES
 
   RewriteRule .* - [E=HTTP_ESPO_CGI_AUTH:%{HTTP:Authorization}]
 
