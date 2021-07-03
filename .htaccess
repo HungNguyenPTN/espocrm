@@ -20,12 +20,13 @@ DirectoryIndex index.php index.html
 
   RewriteRule /?web\.config - [F]
 
+  # Forbid `public` directory.
+  RewriteCond %{ENV:REDIRECT_STATUS} !=200
+  RewriteRule ^/?public/? - [F,L]
+
   # Store the base path.
   RewriteCond %{REQUEST_URI}::$1 ^(.*?/)(.*)::\2$
   RewriteRule ^(.*)$ - [E=BASE:%1]
-
-  # Forbid `public` directory.
-  #RewriteRule ^public - [F,L]
 
   # Skip for `client` directory.
   RewriteRule ^client/ - [L]
