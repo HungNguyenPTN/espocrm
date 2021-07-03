@@ -2,8 +2,23 @@
   Header always set Access-Control-Allow-Methods "POST, GET, PUT, PATCH, DELETE"
 </ifModule>
 
+DirectoryIndex index.php index.html
+
 <IfModule mod_rewrite.c>
   RewriteEngine On
+
+  # Forbid `client` directory listing.
+  RewriteCond %{REQUEST_FILENAME} -d
+  RewriteRule ^/?client/? - [F]
+
+  # Forbid directories. Not actual since redirect to `public` is applied.
+  RewriteRule ^/?api/?$ - [F]
+  RewriteRule ^/?data/ - [F]
+  RewriteRule ^/?application/ - [F]
+  RewriteRule ^/?custom/ - [F]
+  RewriteRule ^/?vendor/ - [F]
+
+  RewriteRule /?web\.config - [F]
 
   # Store the base path.
   RewriteCond %{REQUEST_URI}::$1 ^(.*?/)(.*)::\2$
@@ -21,16 +36,6 @@
   # Rewrite to `public` directory.
   RewriteRule ^((?!public/).*)$ %{ENV:BASE}/public/$1 [L,NC]
 
-  RewriteCond %{REQUEST_FILENAME} -d
-  RewriteRule ^/?(public/api)/ - [F]
-
-  RewriteRule ^/?data/ - [F]
-  RewriteRule ^/?application/ - [F]
-  RewriteRule ^/?custom/ - [F]
-  RewriteRule ^/?vendor/ - [F]
-  RewriteRule ^/?client/?$ - [F]
-
   RewriteRule .* - [E=HTTP_ESPO_CGI_AUTH:%{HTTP:Authorization}]
 
-  RewriteRule /?web\.config - [F]
 </IfModule>
