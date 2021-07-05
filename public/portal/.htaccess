@@ -6,6 +6,15 @@ RewriteEngine On
 #
 # RewriteBase /
 
+# Store base path.
+RewriteCond %{REQUEST_URI}::$1 ^(.*?/)(.*)::\2$
+RewriteRule ^(.*)$ - [E=BASE:%1]
+
+# Redirect up if accessed through `public`.
+RewriteCond %{ENV:REDIRECT_STATUS} !=200
+RewriteCond %{REQUEST_URI} ^(.*)public/portal/$
+RewriteRule (.*) %{ENV:BASE}/../../../portal/$1 [R=301,L]
+
 RewriteRule .* - [E=HTTP_ESPO_CGI_AUTH:%{HTTP:Authorization}]
 
 RewriteCond %{REQUEST_FILENAME} !-f
