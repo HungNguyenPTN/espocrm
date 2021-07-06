@@ -6,11 +6,9 @@ RewriteEngine On
 #
 # RewriteBase /
 
-RewriteCond %{ENV:REDIRECT_STATUS} !=200
-RewriteCond %{REQUEST_URI} ^(.*)/public/portal/$
-RewriteRule ^(.*)$ %1/portal/ [R=301,L]
-
 RewriteRule .* - [E=HTTP_ESPO_CGI_AUTH:%{HTTP:Authorization}]
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule ^ index.php [QSA,L]
+
+RewriteRule /?web\.config - [F]

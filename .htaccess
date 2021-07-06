@@ -31,6 +31,10 @@ Options -Indexes
     RewriteCond %{REQUEST_URI}::$1 ^(.*?/)(.*)::\2$
     RewriteRule ^(.*)$ - [E=BASE:%1]
 
+    # Add trailing slash.
+    RewriteCond %{DOCUMENT_ROOT}/%{ENV:BASE}/public/$1 -d
+    RewriteRule ^(.*?[^/])$ %{REQUEST_URI}/ [L,R=301,NE]
+
     # Rewrite to `public` dir.
     RewriteRule ^((?!public/).*)$ %{ENV:BASE}/public/$1 [L,NC]
 
