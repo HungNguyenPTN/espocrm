@@ -37,4 +37,10 @@ use Espo\Core\{
 
 $portalId = Url::detectPortalIdForApi();
 
+if ($portalId === null || $portalId === '') {
+    echo "No portal ID";
+
+    exit;
+}
+
 (new Application($portalId))->run(Api::class);

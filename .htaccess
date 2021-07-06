@@ -9,12 +9,12 @@ Options -Indexes
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
-    # Forbid dirs. Not actual as redirect to `public` is applied. An extra security measure.
+    # Forbid access. Not actual as redirect to `public` is applied.
+    # An extra security measure if redirect not fired.
     RewriteRule ^/?data/ - [F]
     RewriteRule ^/?application/ - [F]
     RewriteRule ^/?custom/ - [F]
     RewriteRule ^/?vendor/ - [F]
-
     RewriteRule /?web\.config - [F]
 
     # Forbid `public` dir.
